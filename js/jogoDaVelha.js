@@ -1,34 +1,17 @@
+// Tabuleiro, jogadas válidas, vitória, empate e alternância de jogador
 let tabuleiro;
 
-let board;
+export let jogador = 1;
 
-let jogador;;
-
-let aviso;
-let linha;
-let coluna;
-let alerta;
-
-function Iniciar() {
-    tabuleiro = [];
-    board = document.getElementById("board");
-    aviso = document.getElementById("aviso");
-    alerta = document.getElementById("alerta");
-    jogador = 2;
-
-    for(let i = 0; i<3; i++){
-        tabuleiro[i] = [];
-        for(let j = 0; j < 3; j ++){
-            tabuleiro[i][j] = 0;
-        }
-    }
-    console.table(tabuleiro);
-    aviso.innerHTML = "Vez do jogador " + NumeroJogador();
-    alerta.innerHTML = "";
-    Exibir();
+export function IniciarTabuleiro() {
+    tabuleiro = Array
+    .from({ length: 3 }, 
+        () => Array(3)
+        .fill(0));
+    jogador = 1;
 }
 
-function Exibir() {
+export function ExibirTabuleiro() {
     let table = '<table cellPadding="50" border="1">';
     for(let i = 0; i<3; i++){
         table += '<tr>';
@@ -50,45 +33,35 @@ function Exibir() {
     }
     
     table += '</table>';
-    board.innerHTML = table;
+    return table;
 }
 
-function Jogar() {
-    alerta.innerHTML = "";
-    
-    linha = document.getElementById("linha").value - 1;
-    coluna = document.getElementById("coluna").value - 1;
-    
-    if (tabuleiro[linha][coluna] == 0) {
-        tabuleiro[linha][coluna] = NumeroJogador() == 1 ? 1 : -1;
-        jogador++;
-        Exibir();
-        aviso.innerHTML = "Vez do jogador " + NumeroJogador();
-    } else {
-        alerta.innerHTML = "Posição já ocupada!";
+export function validarJogada(linha, coluna) {
+    if (!Number.isInteger(linha) || !Number.isInteger(coluna) ||
+        linha < 0 || linha > 2 || coluna < 0 || coluna > 2 ||
+        tabuleiro[linha][coluna] !== 0) {
+        return false;
     }
-    Exibir();
-    Checar();
+
+    tabuleiro[linha][coluna] = jogador;
+    TrocarJogador();
+    return true;
 }
 
-function Checar() {
+export function ChecarVitoria() {
     // linhas
     for(let i = 0; i <= 2; i++){
-        let somaLinha = 0;
-        somaLinha = tabuleiro[i][0] + tabuleiro[i][1] + tabuleiro[i][2];
-        if(somaLinha == 3 || somaLinha == -3){
-            aviso.innerHTML = "Jogador " + (jogador - 1) + " venceu!";
-            DesabilitarJogar()
+        const somaLinha = tabuleiro[i][0] + tabuleiro[i][1] + tabuleiro[i][2];
+        if(somaLinha === 3 || somaLinha === -3){
+            return somaLinha / 3;
         }
     }
 
     // colunas
     for(let j = 0; j <= 2; j++){
-        let somaColuna = 0;
-        somaColuna = tabuleiro[0][j] + tabuleiro[1][j] + tabuleiro[2][j];
-        if(somaColuna == 3 || somaColuna == -3){
-            aviso.innerHTML = "Jogador " + (jogador - 1) + " venceu!";
-            DesabilitarJogar()
+        const somaColuna = tabuleiro[0][j] + tabuleiro[1][j] + tabuleiro[2][j];
+        if(somaColuna === 3 || somaColuna === -3){
+            return somaColuna / 3;
         }
     }
 
@@ -96,32 +69,17 @@ function Checar() {
     let somaDiagonal1 = tabuleiro[0][0] + tabuleiro[1][1] + tabuleiro[2][2];
     let somaDiagonal2 = tabuleiro[0][2] + tabuleiro[1][1] + tabuleiro[2][0];
 
-    if(somaDiagonal1 == 3 || somaDiagonal1 == -3){
-        aviso.innerHTML = "Jogador " + (jogador - 1) + " venceu!";
-        DesabilitarJogar()
+    if(somaDiagonal1 === 3 || somaDiagonal1 === -3){
+        return somaDiagonal1 / 3;
     }
-    if(somaDiagonal2 == 3 || somaDiagonal2 == -3){
-        aviso.innerHTML = "Jogador " + (jogador - 1) + " venceu!";
-        DesabilitarJogar()
+    if(somaDiagonal2 === 3 || somaDiagonal2 === -3){
+        return somaDiagonal2 / 3;
     }
 
+    return 0;
 }
 
-function NumeroJogador() {
+export function TrocarJogador() {
     console.log("Jogador: " + jogador);
-    jogador = (jogador % 2) + 1;
-    return jogador;
-}
-
-function Resetar() {
-    document.getElementById("jogar").disabled = false;
-    document.getElementById("restart").disabled = true;
-
-    Iniciar();
-}
-
-function DesabilitarJogar(){
-    document.getElementById("jogar").disabled = true;
-
-    document.getElementById("restart").disabled = false;
+    jogador = jogador === 1 ? -1 : 1;
 }
