@@ -1,0 +1,21 @@
+{
+  "name": "jogo-da-velha-gran",
+  "version": "1.0.0",
+  "description": "Tic tac toe produzido no projeto de imersão da graduação de análise e desenvolvimento de sistemas",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marpolos/jogo-da-velha-gran.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/marpolos/jogo-da-velha-gran/issues"
+  },
+  "homepage": "https://github.com/marpolos/jogo-da-velha-gran#readme"
+}
