@@ -2,7 +2,9 @@ FROM nginx:1.27-alpine
 
 WORKDIR /usr/share/nginx/html
 
-COPY jogoDaVelha.html /usr/share/nginx/html/
+COPY jogoDaVelha.html ./
+COPY css/ ./css/
+COPY js/ ./js/
 
 EXPOSE 80
 

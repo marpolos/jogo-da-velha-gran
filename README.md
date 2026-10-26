@@ -9,3 +9,6 @@ docker run --rm -p 8080:80 jogo-da-velha
 
 ## Após subir seu container acesse por:
 http://localhost:8080/jogoDaVelha.html
+
+## Execução dos testes unitários
+Execute o comando: npm test
